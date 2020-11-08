@@ -128,7 +128,7 @@ class ImageWidget(QWidget):
         self._label = QLabel()
         self._label.setAlignment(Qt.AlignTop)
 
-        layout.addWidget(self._label, 0, 0)
+        layout.addWidget(self._label)
 
         self.setLayout(layout)
 
@@ -176,8 +176,11 @@ class ImageWidget(QWidget):
         if x_pos >= self._image.get_width() or y_pos >= self._image.get_height():
             return
 
+        # Black if left click, white if right
+        value = 1 if event.buttons() == Qt.LeftButton else 0
+
         pixel_array = self._image.to_array()
-        pixel_array[y_pos][x_pos] = 1
+        pixel_array[y_pos][x_pos] = value
         self._image = Image(pixel_array, self._image.get_image_format())
         self._draw_image()
 
